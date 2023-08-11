@@ -1,4 +1,3 @@
-numbers = [5, 2, 5, 31, 19]
-bg = set(numbers)
+numbers = list(set([5, 2, 5, 31, 19]))
 
-print(bg)
+print(numbers)
