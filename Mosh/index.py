@@ -1,4 +1,4 @@
-numbers = [5, 2, 5, 2, 2]
+numbers = [5, 2, 5, 31, 19]
+numbers.sort(reverse=True)
 
-for number in numbers:
-    print(numbers * '*')
+print(numbers[0])
