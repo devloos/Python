@@ -2,7 +2,7 @@ import math
 
 
 def func(x):
-    return math.sqrt(x) * math.cos(x)
+    return math.log((1 + math.e ** x), math.e)
 
 
 values = [
