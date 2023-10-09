@@ -2,17 +2,19 @@ import math
 
 
 def func(x):
-    return math.e ** (x + math.cos(x))
+    return math.sqrt(x) * math.cos(x)
 
 
 values = [
-    -1,
-    -0.5,
     0,
     0.5,
     1,
     1.5,
-    2
+    2,
+    2.5,
+    3,
+    3.5,
+    4
 ]
 
 deltaX = 0.5
