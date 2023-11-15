@@ -59,4 +59,4 @@ def find_n_prime_fib(num: int) -> list:
     return prime_list
 
 
-print(find_n_prime_fib(20))
+print(find_n_prime_fib(13))
