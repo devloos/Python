@@ -2,6 +2,7 @@
 # Class: CS30A -> 16195A
 # SOURCE: https://en.wikipedia.org/wiki/Primality_test
 from math import isqrt
+from sympy import isprime
 
 
 # simple trial division test using sqrt
@@ -51,7 +52,7 @@ def find_n_prime_fib(num: int) -> list:
     while (len(prime_list) < num):
         fib_result = fib(i)
 
-        if (is_prime(fib_result)):
+        if (isprime(fib_result)):
             prime_list.append(fib_result)
 
         i += 1
@@ -59,4 +60,4 @@ def find_n_prime_fib(num: int) -> list:
     return prime_list
 
 
-print(find_n_prime_fib(13))
+print(find_n_prime_fib(20))
