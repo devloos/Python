@@ -78,6 +78,20 @@ def rabin_test(d, n):
 # k indicates more accuracy.
 
 
+def find_m(n: int):
+    i = 1
+    while (True):
+        m = 0
+        num = n / (2 ** i)
+        if (not num.is_integer()):
+            break
+
+        i += 1
+        m = num
+
+    return m
+
+
 def is_prime(n):
 
     # Corner cases
@@ -86,13 +100,10 @@ def is_prime(n):
     if (n <= 3):
         return True
 
-    # Find r such that n =
-    # 2^d * r + 1 for some r >= 1
-    d = n - 1
-    while (d % 2 == 0):
-        d //= 2
+    m = find_m(n - 1)
+    print(m)
 
-    return rabin_test(d, n)
+    # return rabin_test(d, n)
 
 
 # use hashmap for memo because why not
@@ -130,4 +141,4 @@ def find_n_prime_fib(num: int) -> list:
     return prime_list
 
 
-print(find_n_prime_fib(20))
+print(is_prime(53))
