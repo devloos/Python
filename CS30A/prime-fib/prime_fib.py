@@ -2,108 +2,86 @@
 # Class: CS30A -> 16195A
 # SOURCE: https://en.wikipedia.org/wiki/Primality_test
 import random
-from math import isqrt
-from sympy import isprime
-
-# Utility function to do
-# modular exponentiation.
-# It returns (x^y) % p
 
 
-def modular_exponentiation(x, y, p):
+# I tried implementing my own miller rabin but it did not work
 
-    # Initialize result
-    res = 1
+# def find_m(n: int) -> int:
+#     m = 0
+#     i = 1
+#     while (True):
+#         num = n / (2 ** i)
+#         if (not num.is_integer()):
+#             break
 
-    # Update x if it is more than or
-    # equal to p
-    x = x % p
-    while (y > 0):
+#         i += 1
+#         m = num
 
-        # If y is odd, multiply
-        # x with result
-        if (y & 1):
-            res = (res * x) % p
-
-        # y must be even now
-        y = y >> 1  # y = y/2
-        x = (x * x) % p
-
-    return res
-
-# This function is called
-# for all k trials. It returns
-# false if n is composite and
-# returns false if n is
-# probably prime. d is an odd
-# number such that d*2<sup>r</sup> = n-1
-# for some r >= 1
+#     return m
 
 
-def rabin_test(d, n):
+# def is_prime(n):
 
-    # Pick a random number in [2..n-2]
-    # Corner cases make sure that n > 4
-    a = 2 + random.randint(1, n - 4)
+#     # Corner cases
+#     if (n <= 1 or n == 4):
+#         return False
+#     if (n <= 3):
+#         return True
 
-    # Compute a^d % n
-    x = modular_exponentiation(a, d, n)
+#     m = find_m(n - 1)
+#     a = random.randint(1, n - 1)
 
-    if (x == 1 or x == n - 1):
-        return True
+#     bi = (a ** m) % n
 
-    # Keep squaring x while one
-    # of the following doesn't
-    # happen
-    # (i) d does not reach n-1
-    # (ii) (x^2) % n is not 1
-    # (iii) (x^2) % n is not n-1
-    while (d != n - 1):
-        x = (x * x) % n
-        d *= 2
+#     if (bi == 1 or bi == -1):
+#         return False
 
-        if (x == 1):
-            return False
-        if (x == n - 1):
-            return True
+#     while (True):
+#         bi = (bi ** 2) % n
 
-    # Return composite
-    return False
-
-# It returns false if n is
-# composite and returns true if n
-# is probably prime. k is an
-# input parameter that determines
-# accuracy level. Higher value of
-# k indicates more accuracy.
-
-
-def find_m(n: int):
-    i = 1
-    while (True):
-        m = 0
-        num = n / (2 ** i)
-        if (not num.is_integer()):
-            break
-
-        i += 1
-        m = num
-
-    return m
+#         if (bi == 1):
+#             return True
+#         elif (bi == -1):
+#             return False
 
 
 def is_prime(n):
+    """
+    Miller-Rabin primality test.
 
-    # Corner cases
-    if (n <= 1 or n == 4):
+    A return value of False means n is certainly not prime. A return value of
+    True means n is very likely a prime.
+    """
+    if n != int(n):
         return False
-    if (n <= 3):
+    n = int(n)
+    # Miller-Rabin test for prime
+    if n == 0 or n == 1 or n == 4 or n == 6 or n == 8 or n == 9:
+        return False
+
+    if n == 2 or n == 3 or n == 5 or n == 7:
+        return True
+    s = 0
+    d = n-1
+    while d % 2 == 0:
+        d >>= 1
+        s += 1
+    assert (2**s * d == n-1)
+
+    def trial_composite(a):
+        if pow(a, d, n) == 1:
+            return False
+        for i in range(s):
+            if pow(a, 2**i * d, n) == n-1:
+                return False
         return True
 
-    m = find_m(n - 1)
-    print(m)
+    for i in range(8):  # number of trials
+        a = random.randrange(2, n)
+        if trial_composite(a):
+            return False
 
-    # return rabin_test(d, n)
+    return True
 
 
 # use hashmap for memo because why not
@@ -141,4 +119,4 @@ def find_n_prime_fib(num: int) -> list:
     return prime_list
 
 
-print(is_prime(53))
+print(find_n_prime_fib(20))
