@@ -4,7 +4,7 @@ key_alpha = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7,  'h': 8, 'i
 key_digit = dict(map(reversed, key_alpha.items()))
 
 
-def digits_to_string(digits: []) -> str:
+def digits_to_string(digits: [int]) -> str:
     message = ''
     for digit in digits:
         message += key_digit[digit]
@@ -12,12 +12,13 @@ def digits_to_string(digits: []) -> str:
     return message
 
 
-def encrypt(message: str, a, b) -> str:
+def encrypt(message: str, a: int, b: int) -> str:
     encrypted_message = ''
     digits = []
     for c in message:
         i = key_alpha[c.lower()]
-        mod = (a * i + b) % 27
+
+        mod = (i + b) % 27
 
         if (mod == 0):
             mod = 27
@@ -35,10 +36,10 @@ def decrypt(message: str, a, b) -> str:
     for c in message:
         i = key_alpha[c.lower()]
 
-        res = int((i - b) / a)
+        res = int(i - b) % 27
 
         if (res == 0):
-            res = 1
+            res = 27
 
         digits.append(res)
 
