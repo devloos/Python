@@ -18,7 +18,7 @@ def encrypt(message: str, a: int, b: int) -> str:
     for c in message:
         i = key_alpha[c.lower()]
 
-        mod = (i + b) % 27
+        mod = (a * i + b) % 27
 
         if (mod == 0):
             mod = 27
@@ -36,7 +36,7 @@ def decrypt(message: str, a, b) -> str:
     for c in message:
         i = key_alpha[c.lower()]
 
-        res = int(i - b) % 27
+        res = int((a ** -1) * i - (a ** -1) * b) % 27
 
         if (res == 0):
             res = 27
