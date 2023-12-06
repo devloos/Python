@@ -28,13 +28,14 @@ def extended_gcd(a, b):
     return [a, [s0, t0]]
 
 
-tests = [
-    [252, 356],
-    [144, 89],
-    [1001, 100001]
-]
+def main():
+    tests = [
+        [252, 356],
+        [144, 89],
+        [1001, 100001]
+    ]
 
-for (a, b) in tests:
-    result = extended_gcd(a, b)
-    print(f"gcd({a}, {b}) = {result[0]}")
-    print(f"Bezout coefficients: {result[1]}\n")
+    for (a, b) in tests:
+        result = extended_gcd(a, b)
+        print(f"gcd({a}, {b}) = {result[0]}")
+        print(f"Bezout coefficients: {result[1]}\n")
