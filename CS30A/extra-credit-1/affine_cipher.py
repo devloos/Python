@@ -66,4 +66,5 @@ def main():
     print(decrypted_message)
 
 
-main()
+if __name__ == "__main__":
+    main()

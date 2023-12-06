@@ -39,3 +39,7 @@ def main():
         result = extended_gcd(a, b)
         print(f"gcd({a}, {b}) = {result[0]}")
         print(f"Bezout coefficients: {result[1]}\n")
+
+
+if __name__ == "__main__":
+    main()
