@@ -6,6 +6,8 @@ KEY_DIGIT = dict(map(reversed, KEY_ALPHA.items()))
 ENCODED_COUNT = 27
 
 
+# given an array of digits it will convert each digit into
+# a character and append it to message and return str
 def digits_to_string(digits: [int]) -> str:
     message = ''
     for digit in digits:
@@ -14,6 +16,9 @@ def digits_to_string(digits: [int]) -> str:
     return message
 
 
+# basic affine encryption of the form (ac + b) mod m
+# uses KEY_ALPHA to get digit representation and append it
+# into digits array
 def encrypt(message: str, a: int, b: int) -> str:
     encrypted_message = ''
     digits = []
@@ -22,6 +27,7 @@ def encrypt(message: str, a: int, b: int) -> str:
 
         mod = (a * i + b) % ENCODED_COUNT
 
+        # if 27 % 27 just set mod = 27
         if (mod == 0):
             mod = ENCODED_COUNT
 
@@ -32,12 +38,16 @@ def encrypt(message: str, a: int, b: int) -> str:
     return encrypted_message
 
 
+# mod inverse for decryption
 def mod_inverse(a, m) -> int:
     _, coefs = extended_gcd(a, m)
 
     return coefs[0] % m
 
 
+# affine decryption of the form (a^-1 (c - b)) mod m
+# uses KEY_ALPHA to get digit representation and append it
+# into digits array
 def decrypt(message: str, a, b) -> str:
     a_inverse = mod_inverse(a, ENCODED_COUNT)
     decrypted_message = ''
@@ -47,6 +57,7 @@ def decrypt(message: str, a, b) -> str:
 
         res = (a_inverse * (i - b)) % ENCODED_COUNT
 
+        # if 27 % 27 just set mod = 27
         if (res == 0):
             res = ENCODED_COUNT
 
