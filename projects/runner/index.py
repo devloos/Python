@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from random import randint
+from random import randint, choice
 
 from pygame.sprite import Group, Sprite, GroupSingle
 from player import Player
@@ -72,15 +72,8 @@ def display_menu():
         screen.blit(score_surf, score_rect)
 
 
-def collision(entities: list[tuple[str, pygame.Rect]], player_rect: pygame.Rect) -> bool:
-    if not entities:
-        return False
-
-    for (_, rect) in entities:
-        if rect.colliderect(player_rect):
-            return True
-
-    return False
+def collision(player: GroupSingle, enemies: Group) -> bool:
+    return pygame.sprite.spritecollide(player.sprite, enemies, False)
 
 
 while True:
@@ -91,18 +84,18 @@ while True:
 
         if game_active:
             if event.type == obstacle_event:
-                type = TYPE_SNAIL if bool(randint(0, 2)) else TYPE_FLY
-                enemies.add(Enemy(type))
+                enemies.add(
+                    Enemy(choice([TYPE_SNAIL, TYPE_SNAIL, TYPE_SNAIL, TYPE_FLY])))
         else:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
+                    enemies.empty()
                     start_time = int(pygame.time.get_ticks() / 1000)
                     game_active = True
 
     if game_active:
-
-        # if entity_collision(entities, player_rect):
-        #     game_active = False
+        if collision(player, enemies):
+            game_active = False
 
         score = int(pygame.time.get_ticks() / 1000) - start_time
 
