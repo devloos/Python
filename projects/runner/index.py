@@ -1,7 +1,7 @@
 import pygame
 from collections import defaultdict
 from sys import exit
-from random import randint, getrandbits
+from random import randint
 
 # pygame setup
 pygame.init()
@@ -126,7 +126,7 @@ while True:
                     player_gravity = -9.5
 
             if event.type == obstacle_event:
-                type = 'snail' if bool(getrandbits(1)) else 'fly'
+                type = 'snail' if bool(randint(0, 2)) else 'fly'
                 entity_rect = None
 
                 if type == 'snail':
