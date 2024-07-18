@@ -89,10 +89,10 @@ def display_entities(entities: list[tuple[str, pygame.Rect]]):
 
     for (type, rect) in entities:
         if type == 'snail':
-            snail_frame_index += 0.1
+            snail_frame_index += 0.06
             screen.blit(snail_frame[int(snail_frame_index) % 2], rect)
         elif type == 'fly':
-            fly_frame_index += 0.1
+            fly_frame_index += 0.2
             screen.blit(fly_frame[int(fly_frame_index) % 2], rect)
 
 
@@ -102,7 +102,7 @@ def move_entities(entities: list[tuple[str, pygame.Rect]]) -> list[tuple[str, py
 
     newEntities = []
     for (type, rect) in entities:
-        rect.x -= 8
+        rect.x -= 7
 
         if rect.right > 0:
             newEntities.append((type, rect))
