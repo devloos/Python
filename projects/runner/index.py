@@ -2,9 +2,9 @@ import pygame
 from sys import exit
 from random import randint
 
-from pygame.sprite import Sprite, GroupSingle
+from pygame.sprite import Group, Sprite, GroupSingle
 from player import Player
-
+from enemy import Enemy, TYPE_FLY, TYPE_SNAIL
 
 # pygame setup
 pygame.init()
@@ -24,21 +24,13 @@ score = 0
 player = GroupSingle()
 player.add(Player((80, 300)))
 
-snail_frame_index = 0
-fly_frame_index = 0
-
-# list of string and Rect (string being surface type e.g. snail)
-entities: list[list[str, pygame.Rect]] = []
+enemies = Group()
 
 obstacle_event = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_event, 1300)
 
 sky_surf = pygame.image.load('graphics/sky.png').convert()
 ground_surf = pygame.image.load('graphics/ground.png').convert()
-snail_frame_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-snail_frame_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
-fly_frame_1 = pygame.image.load('graphics/fly/fly1.png').convert_alpha()
-fly_frame_2 = pygame.image.load('graphics/fly/fly2.png').convert_alpha()
 title_surf = font.render('PIXEL RUNNER', False, (64, 64, 64))
 instructions_surf = font.render('Press space to play!', False, (64, 64, 64))
 
@@ -52,8 +44,10 @@ player_stand_rect = player_stand_surf.get_rect(
     center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 )
 
-snail_frame = [snail_frame_1, snail_frame_2]
-fly_frame = [fly_frame_1, fly_frame_2]
+
+def display_background():
+    screen.blit(sky_surf, (0, 0))
+    screen.blit(ground_surf, (0, 300))
 
 
 def display_score():
@@ -78,36 +72,7 @@ def display_menu():
         screen.blit(score_surf, score_rect)
 
 
-def display_entities(entities: list[tuple[str, pygame.Rect]]):
-    global snail_frame_index, fly_frame_index
-
-    if not entities:
-        return
-
-    for (type, rect) in entities:
-        if type == 'snail':
-            snail_frame_index += 0.06
-            screen.blit(snail_frame[int(snail_frame_index) % 2], rect)
-        elif type == 'fly':
-            fly_frame_index += 0.2
-            screen.blit(fly_frame[int(fly_frame_index) % 2], rect)
-
-
-def move_entities(entities: list[tuple[str, pygame.Rect]]) -> list[tuple[str, pygame.Rect]]:
-    if not entities:
-        return []
-
-    newEntities = []
-    for (type, rect) in entities:
-        rect.x -= 7
-
-        if rect.right > 0:
-            newEntities.append((type, rect))
-
-    return newEntities
-
-
-def entity_collision(entities: list[tuple[str, pygame.Rect]], player_rect: pygame.Rect) -> bool:
+def collision(entities: list[tuple[str, pygame.Rect]], player_rect: pygame.Rect) -> bool:
     if not entities:
         return False
 
@@ -118,11 +83,6 @@ def entity_collision(entities: list[tuple[str, pygame.Rect]], player_rect: pygam
     return False
 
 
-def display_background():
-    screen.blit(sky_surf, (0, 0))
-    screen.blit(ground_surf, (0, 300))
-
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -131,28 +91,15 @@ while True:
 
         if game_active:
             if event.type == obstacle_event:
-                type = 'snail' if bool(randint(0, 2)) else 'fly'
-                entity_rect = None
-
-                if type == 'snail':
-                    entity_rect = snail_frame_1.get_rect(
-                        bottomleft=(randint(800, 1000), 300)
-                    )
-                else:
-                    entity_rect = fly_frame_1.get_rect(
-                        bottomleft=(randint(800, 1000), 200)
-                    )
-
-                entities.append((type, entity_rect))
+                type = TYPE_SNAIL if bool(randint(0, 2)) else TYPE_FLY
+                enemies.add(Enemy(type))
         else:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    entities = []
                     start_time = int(pygame.time.get_ticks() / 1000)
                     game_active = True
 
     if game_active:
-        entities = move_entities(entities)
 
         # if entity_collision(entities, player_rect):
         #     game_active = False
@@ -161,7 +108,9 @@ while True:
 
         display_background()
         display_score()
-        display_entities(entities)
+
+        enemies.draw(screen)
+        enemies.update()
 
         player.draw(screen)
         player.update()
