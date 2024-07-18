@@ -90,7 +90,7 @@ while True:
         if game_active:
             if event.type == obstacle_event:
                 enemies.add(
-                    Enemy(choice([TYPE_SNAIL, TYPE_SNAIL, TYPE_SNAIL, TYPE_FLY])))
+                    Enemy(choice([TYPE_SNAIL, TYPE_SNAIL, TYPE_FLY])))
         else:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
