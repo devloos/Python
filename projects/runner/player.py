@@ -48,7 +48,7 @@ class Player(Sprite):
         if (self.rect.bottom < 300):
             self.image = self.jump
         else:
-            self.walk_frame_index += 0.1
+            self.walk_frame_index += 0.2
             self.image = self.walk_frames[int(self.walk_frame_index) % 2]
 
     def update(self):
