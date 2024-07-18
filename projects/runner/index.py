@@ -1,10 +1,11 @@
 import pygame
 from sys import exit
-from random import randint, choice
+from random import choice
 
-from pygame.sprite import Group, Sprite, GroupSingle
+from pygame.sprite import Group, GroupSingle
 from player import Player
 from enemy import Enemy, TYPE_FLY, TYPE_SNAIL
+from pygame.mixer import Sound
 
 # pygame setup
 pygame.init()
@@ -20,6 +21,10 @@ font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
 score = 0
+
+background_sound = Sound('audio/music.wav')
+background_sound.set_volume(0.05)
+background_sound.play(loops=-1)
 
 player = GroupSingle()
 player.add(Player((80, 300)))
