@@ -1,5 +1,6 @@
 import sys
 import pygame
+import pygame.examples
 pygame.init()
 
 size = width, height = 520, 370
