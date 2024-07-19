@@ -1,11 +1,15 @@
-import pygame
 from pygame.locals import *
+from socket import *
+from util import load_png
+import pygame
+
+VERSION = "0.4"
 
 
 def main():
     # Initialise screen
     pygame.init()
-    screen = pygame.display.set_mode((150, 50))
+    screen = pygame.display.set_mode((250, 250))
     pygame.display.set_caption('Basic Pygame program')
 
     # Fill background
@@ -28,6 +32,7 @@ def main():
 
         screen.blit(background, (0, 0))
         screen.blit(text, textpos)
+
         pygame.display.flip()
 
 
