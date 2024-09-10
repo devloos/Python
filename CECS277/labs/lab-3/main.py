@@ -68,12 +68,21 @@ GALLOW_STATES = [
 
 
 def display_gallows(number_incorrect: int):
+    '''Depending on the number of incorrect letters
+    we choose the state based on it.
+    '''
     print('========')
     print('||/   |', end='')
     print(GALLOW_STATES[number_incorrect])
 
 
 def display_letters(word: str, correct: list[str]):
+    '''We create a copy of the correct letters because
+    our algorithm needs to mutate the correct list.
+    This is because we go through the desired word and
+    as we find the letter from the correct list we remove it.
+    This is so that we do not process duplicates.
+    '''
     letters = []
     correct_copy = correct.copy()
 
@@ -88,6 +97,9 @@ def display_letters(word: str, correct: list[str]):
 
 
 def get_letters_remaining(incorrect, correct):
+    '''From a constant list of letters we remove the ones
+    included in incorrect and correct list. We then display the list.
+    '''
     letters_left = [
         letter for letter in LETTERS if letter not in incorrect and letter not in correct
     ]
@@ -109,6 +121,7 @@ def main():
         random_word = random.choice(words)
 
         while True:
+            # display incorrect selections
             print('Incorrect selections:', end=' ')
 
             for letter in incorrect:
@@ -116,6 +129,7 @@ def main():
 
             print()
 
+            # display main ui
             display_gallows(len(incorrect))
             display_letters(random_word, correct)
             get_letters_remaining(incorrect, correct)
@@ -134,6 +148,7 @@ def main():
 
             letter = input('Enter a letter: ').upper()
 
+            # checking if empty or not in range of A - Z
             if letter == '' or ord(letter) < A_IN_ASCII or ord(letter) > Z_IN_ASCII:
                 print('That is not a letter.', end='\n\n')
                 continue
@@ -143,6 +158,7 @@ def main():
                 print('You have already used that letter.', end='\n\n')
                 continue
 
+            # if in desired word than correct otherwise incorrect
             if letter in random_word:
                 correct.append(letter)
                 print('Correct!')
