@@ -40,6 +40,9 @@ def main():
                 char = hero.go_east()
             case 4:
                 char = hero.go_west()
+            case 5:
+                print('Better luck next time!')
+                break
 
         if char in SCRIPTS:
             print(SCRIPTS[char])
@@ -69,6 +72,13 @@ def main():
                 print(enemy.attack(hero))
                 print()
 
+                if hero.hp == 0:
+                    break
+
+            if hero.hp == 0:
+                print('You have been slain, better luck next time!')
+                break
+
         elif char == 'i':
             hero.heal()
             map.remove_at_loc(hero.loc)
@@ -77,6 +87,8 @@ def main():
 
         map.reveal(hero.loc)
         print()
+
+    print('Game Over')
 
 
 main()
