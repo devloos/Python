@@ -1,3 +1,16 @@
+'''
+Written by: Israel Fausto, Carlos Aguilera
+Date: 10/30/24
+
+Description:
+    This program is a dungeon and monster game where the user must
+    traverse a maze in order to find the exit. All this while encountering
+    spells, monsters, and nothingness. Choose which direction to move the user
+    and whether to attack or run away from monsters. The primary focus of this
+    program was to implement a singleton named Map that both the hero entity would
+    use and the main function. Essentially the singleton main goal was to hold
+    global state.
+'''
 from hero import Hero
 from map import Map
 from check_input import get_int_range
