@@ -9,6 +9,14 @@ class Puppy():
         self._feeds = 0
         self._state: PuppyState = StateAsleep()
 
+    @property
+    def plays(self) -> int:
+        return self._plays
+
+    @property
+    def feeds(self) -> int:
+        return self._feeds
+
     def change_state(self, new_state: PuppyState):
         self._state = new_state
 
@@ -16,7 +24,7 @@ class Puppy():
         return self._state.play(self)
 
     def give_food(self) -> str:
-        return self._state.play(self)
+        return self._state.feed(self)
 
     def inc_plays(self):
         self._plays += 1
